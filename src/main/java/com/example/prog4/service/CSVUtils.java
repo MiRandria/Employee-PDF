@@ -3,7 +3,7 @@ package com.example.prog4.service;
 import com.example.prog4.model.Employee;
 import com.example.prog4.model.Phone;
 import com.example.prog4.model.exception.InternalServerErrorException;
-import com.example.prog4.repository.entity.Position;
+import com.example.prog4.repository.base.entity.Position;
 import com.opencsv.CSVWriter;
 
 import java.io.IOException;

@@ -2,9 +2,9 @@ package com.example.prog4.controller.mapper;
 
 import com.example.prog4.model.Employee;
 import com.example.prog4.model.exception.BadRequestException;
-import com.example.prog4.repository.PositionRepository;
-import com.example.prog4.repository.entity.Phone;
-import com.example.prog4.repository.entity.Position;
+import com.example.prog4.repository.base.PositionRepository;
+import com.example.prog4.repository.base.entity.Phone;
+import com.example.prog4.repository.base.entity.Position;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class EmployeeMapper {
     private PositionRepository positionRepository;
     private PhoneMapper phoneMapper;
 
-    public com.example.prog4.repository.entity.Employee toDomain(Employee employee) {
+    public com.example.prog4.repository.base.entity.Employee toDomain(Employee employee) {
         try {
             List<Position> positions = new ArrayList<>();
             employee.getPositions().forEach(position -> {
@@ -36,7 +36,8 @@ public class EmployeeMapper {
 
             List<Phone> phones = employee.getPhones().stream().map((com.example.prog4.model.Phone fromView) -> phoneMapper.toDomain(fromView, employee.getId())).toList();
 
-            com.example.prog4.repository.entity.Employee domainEmployee = com.example.prog4.repository.entity.Employee.builder()
+            com.example.prog4.repository.base.entity.Employee
+                domainEmployee = com.example.prog4.repository.base.entity.Employee.builder()
                     .id(employee.getId())
                     .firstName(employee.getFirstName())
                     .lastName(employee.getLastName())
@@ -71,7 +72,7 @@ public class EmployeeMapper {
         }
     }
 
-    public Employee toView(com.example.prog4.repository.entity.Employee employee) {
+    public Employee toView(com.example.prog4.repository.base.entity.Employee employee) {
         return Employee.builder()
                 .id(employee.getId())
                 .firstName(employee.getFirstName())

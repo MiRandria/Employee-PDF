@@ -2,7 +2,7 @@ package com.example.prog4.controller.validator;
 
 import com.example.prog4.controller.validator.utils.StringValidator;
 import com.example.prog4.model.exception.BadRequestException;
-import com.example.prog4.repository.entity.Position;
+import com.example.prog4.repository.base.entity.Position;
 
 public class PositionValidator {
     public void validate(Position position){
