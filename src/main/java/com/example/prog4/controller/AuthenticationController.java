@@ -17,6 +17,7 @@ public class AuthenticationController {
 
     @GetMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session) {
+        System.out.println(session.getId());
         authService.authenticateUser(user, session.getId());
         return "redirect:/employee/list";
     }

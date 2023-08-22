@@ -1,11 +1,6 @@
 package com.example.prog4.repository.base.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +24,7 @@ public class Session {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private String id;
+    @Column(name = "session_id")
     private String sessionId;
     private LocalDateTime timeout;
     @ManyToOne
