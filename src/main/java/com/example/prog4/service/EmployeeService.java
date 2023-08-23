@@ -7,6 +7,8 @@ import com.example.prog4.repository.base.dao.EmployeeManagerDao;
 import com.example.prog4.repository.base.entity.Employee;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.prog4.repository.cnaps.dao.CnapsManagerDao;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class EmployeeService {
   private EmployeeRepository baseRepository;
-  private com.example.prog4.repository.cnaps.EmployeeRepository cnapsEmployeeRepository;
+  private com.example.prog4.repository.cnaps.CnapsEmployeeRepository cnapsEmployeeRepository;
   private EmployeeManagerDao employeeManagerDao;
 
 
@@ -27,9 +29,6 @@ public class EmployeeService {
       throw new NotFoundException("Employee.Id=" + id + " was not found.");
     }
     Employee result = base.get();
-    Optional<com.example.prog4.repository.cnaps.entity.Employee> cnaps =
-        cnapsEmployeeRepository.findByEndToEndId(id);
-    cnaps.ifPresent(employee -> result.setCnaps(employee.getNumber()));
     return result;
   }
 
@@ -37,18 +36,19 @@ public class EmployeeService {
     Sort sort = Sort.by(filter.getOrderDirection(), filter.getOrderBy().toString());
     Pageable pageable = PageRequest.of(filter.getIntPage() - 1, filter.getIntPerPage(), sort);
     return employeeManagerDao.findByCriteria(
-        filter.getLastName(),
-        filter.getFirstName(),
-        filter.getCountryCode(),
-        filter.getSex(),
-        filter.getPosition(),
-        filter.getEntrance(),
-        filter.getDeparture(),
-        pageable
+            filter.getLastName(),
+            filter.getFirstName(),
+            filter.getCountryCode(),
+            filter.getSex(),
+            filter.getPosition(),
+            filter.getEntrance(),
+            filter.getDeparture(),
+            pageable
     );
   }
 
-  public void saveOne(Employee employee) {
+  public void saveOneInEmployee(Employee employee) {
     baseRepository.save(employee);
   }
+  public void saveOneInCNaps(com.example.prog4.repository.cnaps.entity.Employee employee) {cnapsEmployeeRepository.save(employee);}
 }

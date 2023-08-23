@@ -41,6 +41,14 @@ public class PhoneMapper {
                 .build();
     }
 
+    public com.example.prog4.model.Phone toCnapsView(Phone fromDomain) {
+        return com.example.prog4.model.Phone.builder()
+                .id(fromDomain.getId())
+                .countryCode(getViewCountryCode(fromDomain.getValue()))
+                .value(getViewValue(fromDomain.getValue()))
+                .build();
+    }
+
     public String createPhoneValue(String value, String countryCode) {
         return countryCode + JOIN_ELEMENT + value;
     }

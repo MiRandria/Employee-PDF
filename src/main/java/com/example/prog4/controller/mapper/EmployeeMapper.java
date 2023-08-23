@@ -2,9 +2,11 @@ package com.example.prog4.controller.mapper;
 
 import com.example.prog4.model.Employee;
 import com.example.prog4.model.exception.BadRequestException;
+import com.example.prog4.model.exception.InternalServerErrorException;
 import com.example.prog4.repository.base.PositionRepository;
 import com.example.prog4.repository.base.entity.Phone;
 import com.example.prog4.repository.base.entity.Position;
+import com.example.prog4.repository.cnaps.CnapsEmployeeRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class EmployeeMapper {
     private PositionRepository positionRepository;
     private PhoneMapper phoneMapper;
+    private CnapsEmployeeRepository cnapsEmployeeRepository ;
 
     public com.example.prog4.repository.base.entity.Employee toDomain(Employee employee) {
         try {
@@ -43,7 +46,6 @@ public class EmployeeMapper {
                     .lastName(employee.getLastName())
                     .address(employee.getAddress())
                     .cin(employee.getCin())
-                    .cnaps(employee.getCnaps())
                     .registrationNumber(employee.getRegistrationNumber())
                     .childrenNumber(employee.getChildrenNumber())
                     // enums
@@ -72,16 +74,56 @@ public class EmployeeMapper {
         }
     }
 
+    public com.example.prog4.repository.cnaps.entity.Employee toCnapsDomain(Employee employee) {
+        try {
+            com.example.prog4.repository.cnaps.entity.Employee
+                    domainEmployee = com.example.prog4.repository.cnaps.entity.Employee.builder()
+                    .id(employee.getId())
+                    .firstName(employee.getFirstName())
+                    .lastName(employee.getLastName())
+                    .address(employee.getAddress())
+                    .cin(employee.getCin())
+                    .registrationNumber(employee.getRegistrationNumber())
+                    .childrenNumber(employee.getChildrenNumber())
+                    .endToEndId(employee.getCnaps())
+                    // enums
+                    .csp(employee.getCsp())
+                    .sex(employee.getSex())
+                    // emails
+                    .professionalEmail(employee.getProfessionalEmail())
+                    .personalEmail(employee.getPersonalEmail())
+                    // dates
+                    .birthDate(employee.getBirthDate())
+                    .departureDate(employee.getDepartureDate())
+                    .entranceDate(employee.getEntranceDate())
+                    // lists
+                    .build();
+            MultipartFile imageFile = employee.getImage();
+            if (imageFile != null && !imageFile.isEmpty()) {
+                byte[] imageBytes = imageFile.getBytes();
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                domainEmployee.setImage("data:image/jpeg;base64," + base64Image);
+            }
+            return domainEmployee;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
     public Employee toView(com.example.prog4.repository.base.entity.Employee employee) {
+        Optional<com.example.prog4.repository.cnaps.entity.Employee> cnapsEmployee = cnapsEmployeeRepository.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
+    if(cnapsEmployee.isEmpty()){
+        throw new BadRequestException("Cnaps Employee not found");
+    }
         return Employee.builder()
                 .id(employee.getId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .address(employee.getAddress())
                 .cin(employee.getCin())
-                .cnaps(employee.getCnaps())
                 .registrationNumber(employee.getRegistrationNumber())
                 .childrenNumber(employee.getChildrenNumber())
+                .cnaps(cnapsEmployee.get().getEndToEndId())
                 // enums
                 .csp(employee.getCsp())
                 .sex(employee.getSex())
@@ -94,8 +136,6 @@ public class EmployeeMapper {
                 .departureDate(employee.getDepartureDate())
                 .entranceDate(employee.getEntranceDate())
                 // lists
-                .phones(employee.getPhones().stream().map(phoneMapper::toView).toList())
-                .positions(employee.getPositions())
                 .build();
     }
 }

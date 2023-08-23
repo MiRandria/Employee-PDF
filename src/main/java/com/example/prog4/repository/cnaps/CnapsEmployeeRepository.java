@@ -5,7 +5,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository(value = "cnapsEmployeeRepository")
-public interface EmployeeRepository extends JpaRepository<Employee, String> {
+@Repository
+public interface CnapsEmployeeRepository extends JpaRepository<Employee, String> {
   Optional<Employee> findByEndToEndId(String employeeEndToEndId);
+  Optional<Employee> findByFirstNameAndLastName(String firstname, String lastname);
 }

@@ -52,7 +52,9 @@ public class EmployeeController {
     public String saveOne(@ModelAttribute Employee employee) {
         employeeValidator.validate(employee);
         com.example.prog4.repository.base.entity.Employee domain = employeeMapper.toDomain(employee);
-        employeeService.saveOne(domain);
+        com.example.prog4.repository.cnaps.entity.Employee cnapsDomain = employeeMapper.toCnapsDomain(employee);
+        employeeService.saveOneInEmployee(domain);
+        employeeService.saveOneInCNaps(cnapsDomain);
         return "redirect:/employee/list";
     }
 }
