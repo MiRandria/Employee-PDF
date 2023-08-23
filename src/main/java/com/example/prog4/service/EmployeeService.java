@@ -2,13 +2,13 @@ package com.example.prog4.service;
 
 import com.example.prog4.model.EmployeeFilter;
 import com.example.prog4.model.exception.NotFoundException;
-import com.example.prog4.repository.base.EmployeeRepository;
-import com.example.prog4.repository.base.dao.EmployeeManagerDao;
-import com.example.prog4.repository.base.entity.Employee;
+import com.example.prog4.repository.cnaps.CnapsRepository;
+import com.example.prog4.repository.employee.EmployeeRepository;
+import com.example.prog4.repository.employee.dao.EmployeeManagerDao;
+import com.example.prog4.repository.employee.entity.Employee;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.prog4.repository.cnaps.dao.CnapsManagerDao;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class EmployeeService {
   private EmployeeRepository baseRepository;
-  private com.example.prog4.repository.cnaps.CnapsEmployeeRepository cnapsEmployeeRepository;
+  private CnapsRepository cnapsRepository;
   private EmployeeManagerDao employeeManagerDao;
 
 
@@ -30,6 +30,11 @@ public class EmployeeService {
     }
     Employee result = base.get();
     return result;
+  }
+
+  public Optional<com.example.prog4.repository.cnaps.entity.Employee> getOneCnaps(String endToendId) {
+    Optional<com.example.prog4.repository.cnaps.entity.Employee> cnaps = cnapsRepository.findByEndToEndId(endToendId);
+    return cnaps;
   }
 
   public List<Employee> getAll(EmployeeFilter filter) {
@@ -50,5 +55,6 @@ public class EmployeeService {
   public void saveOneInEmployee(Employee employee) {
     baseRepository.save(employee);
   }
-  public void saveOneInCNaps(com.example.prog4.repository.cnaps.entity.Employee employee) {cnapsEmployeeRepository.save(employee);}
+  public void saveOneInCNaps(com.example.prog4.repository.cnaps.entity.Employee employee) {
+    cnapsRepository.save(employee);}
 }

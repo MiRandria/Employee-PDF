@@ -41,7 +41,7 @@
                 <select id="sex" th:field="*{sex}" name="sex" class="form-select">
                     <option selected th:value="${null}">Choose your sex</option>
                     <option th:value="${sex}" th:text="${sex}"
-                            th:each="sex : ${T(com.example.prog4.repository.base.entity.enums.Sex).values()}"></option>
+                            th:each="sex : ${T(com.example.prog4.repository.employee.entity.enums.Sex).values()}"></option>
                 </select>
             </div>
             <div class="col-md-4 col-12 col-sm-6">

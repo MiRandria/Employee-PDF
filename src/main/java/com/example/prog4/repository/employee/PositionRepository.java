@@ -1,6 +1,6 @@
-package com.example.prog4.repository.base;
+package com.example.prog4.repository.employee;
 
-import com.example.prog4.repository.base.entity.Position;
+import com.example.prog4.repository.employee.entity.Position;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

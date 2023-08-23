@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -51,10 +52,29 @@ public class EmployeeController {
     @PostMapping("/createOrUpdate")
     public String saveOne(@ModelAttribute Employee employee) {
         employeeValidator.validate(employee);
-        com.example.prog4.repository.base.entity.Employee domain = employeeMapper.toDomain(employee);
-        com.example.prog4.repository.cnaps.entity.Employee cnapsDomain = employeeMapper.toCnapsDomain(employee);
+        com.example.prog4.repository.employee.entity.Employee domain = employeeMapper.toDomain(employee);
+        Optional<com.example.prog4.repository.cnaps.entity.Employee> tempCnaps = employeeService.getOneCnaps(employee.getCnaps());
+        if (tempCnaps.isPresent()){
+            com.example.prog4.repository.cnaps.entity.Employee currentCnaps = tempCnaps.get();
+            currentCnaps.setCin(employee.getCin());
+            currentCnaps.setAddress(employee.getAddress());
+            currentCnaps.setFirstName(employee.getFirstName());
+            currentCnaps.setLastName(employee.getLastName());
+            currentCnaps.setPersonalEmail(employee.getPersonalEmail());
+            currentCnaps.setProfessionalEmail(employee.getProfessionalEmail());
+            currentCnaps.setRegistrationNumber(employee.getRegistrationNumber());
+            currentCnaps.setBirthDate(employee.getBirthDate());
+            currentCnaps.setDepartureDate(employee.getDepartureDate());
+            currentCnaps.setEntranceDate(employee.getEntranceDate());
+            currentCnaps.setChildrenNumber(employee.getChildrenNumber());
+            currentCnaps.setSex(employee.getSex());
+            currentCnaps.setCsp(employee.getCsp());
+            employeeService.saveOneInCNaps(currentCnaps);
+        } else {
+            com.example.prog4.repository.cnaps.entity.Employee cnapsDomain = employeeMapper.toCnapsDomain(employee);
+            employeeService.saveOneInCNaps(cnapsDomain);
+        }
         employeeService.saveOneInEmployee(domain);
-        employeeService.saveOneInCNaps(cnapsDomain);
         return "redirect:/employee/list";
     }
 }

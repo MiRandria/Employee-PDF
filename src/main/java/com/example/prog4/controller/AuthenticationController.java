@@ -1,6 +1,6 @@
 package com.example.prog4.controller;
 
-import com.example.prog4.repository.base.entity.User;
+import com.example.prog4.repository.employee.entity.User;
 import com.example.prog4.service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;

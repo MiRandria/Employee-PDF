@@ -18,6 +18,7 @@
         <div class="col-12 d-flex justify-content-start align-items-center">
             <img th:src="${employee.stringImage}" alt="no image">
         </div>
+        <input type="hidden" th:field="*{cnaps}" />
         <input required id="id" name="id" th:field="*{id}" type="hidden"/>
         <input required id="registrationNumber" name="registrationNumber" th:field="*{registrationNumber}"
                type="hidden"/>
@@ -75,7 +76,7 @@
             <label for="sex" class="form-label">Sex</label>
             <select id="sex" name="sex" class="form-select" th:field="*{sex}">
                 <option selected value="">Choose your sex</option>
-                <option th:each="sex : ${T(com.example.prog4.repository.base.entity.enums.Sex).values()}" th:value="${sex}"
+                <option th:each="sex : ${T(com.example.prog4.repository.employee.entity.enums.Sex).values()}" th:value="${sex}"
                         th:text="${sex}"></option>
             </select>
         </div>
@@ -83,7 +84,7 @@
             <label for="csp" class="form-label">CSP</label>
             <select id="csp" name="csp" class="form-select" th:field="*{csp}">
                 <option selected value="">Choose your CSP</option>
-                <option th:each="csp : ${T(com.example.prog4.repository.base.entity.enums.Csp).values()}" th:value="${csp}"
+                <option th:each="csp : ${T(com.example.prog4.repository.employee.entity.enums.Csp).values()}" th:value="${csp}"
                         th:text="${csp}"></option>
             </select>
         </div>

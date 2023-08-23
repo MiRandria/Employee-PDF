@@ -1,4 +1,4 @@
-package com.example.prog4.repository.base.configuration;
+package com.example.prog4.repository.cnaps.configuration;
 
 import java.util.HashMap;
 import javax.sql.DataSource;
@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -18,17 +17,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @PropertySource({"classpath:application.properties"})
-@EnableJpaRepositories(basePackages = "com.example.prog4.repository.base", entityManagerFactoryRef = "baseEmployeeEntityManager", transactionManagerRef = "baseEmployeeTransactionManager")
+@EnableJpaRepositories(basePackages = "com.example.prog4.repository.cnaps", entityManagerFactoryRef = "cnapsEntityManager", transactionManagerRef = "cnapsTransactionManager")
 @AllArgsConstructor
-public class PersistenceBaseEmployeeAutoConfiguration {
+public class CnapsConfiguration {
   private Environment env;
 
-  @Primary
   @Bean
-  public LocalContainerEntityManagerFactoryBean baseEmployeeEntityManager() {
+  public LocalContainerEntityManagerFactoryBean cnapsEntityManager() {
     final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-    em.setDataSource(baseEmployeeDataSource());
-    em.setPackagesToScan("com.example.prog4.repository.base");
+    em.setDataSource(cnapsDataSource());
+    em.setPackagesToScan("com.example.prog4.repository.cnaps");
 
     final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
     em.setJpaVendorAdapter(vendorAdapter);
@@ -40,18 +38,16 @@ public class PersistenceBaseEmployeeAutoConfiguration {
     return em;
   }
 
-  @Bean
-  @Primary
-  @ConfigurationProperties(prefix = "spring.datasource")
-  public DataSource baseEmployeeDataSource() {
+  @Bean(name = "cnapsDataSource")
+  @ConfigurationProperties(prefix = "spring.second-datasource")
+  public DataSource cnapsDataSource() {
     return DataSourceBuilder.create().build();
   }
 
-  @Primary
   @Bean
-  public PlatformTransactionManager baseEmployeeTransactionManager() {
+  public PlatformTransactionManager cnapsTransactionManager() {
     final JpaTransactionManager transactionManager = new JpaTransactionManager();
-    transactionManager.setEntityManagerFactory(baseEmployeeEntityManager().getObject());
+    transactionManager.setEntityManagerFactory(cnapsEntityManager().getObject());
     return transactionManager;
   }
 

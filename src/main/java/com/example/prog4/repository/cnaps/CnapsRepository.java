@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CnapsEmployeeRepository extends JpaRepository<Employee, String> {
+public interface CnapsRepository extends JpaRepository<Employee, String> {
   Optional<Employee> findByEndToEndId(String employeeEndToEndId);
   Optional<Employee> findByFirstNameAndLastName(String firstname, String lastname);
 }

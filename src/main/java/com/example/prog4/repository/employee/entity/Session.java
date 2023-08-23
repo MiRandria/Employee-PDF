@@ -1,15 +1,14 @@
-package com.example.prog4.repository.base.entity;
+package com.example.prog4.repository.employee.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -18,12 +17,17 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "\"position\"")
+@Table(name = "\"session\"")
 @EqualsAndHashCode
 @ToString
-public class Position {
+public class Session {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private String id;
-    private String name;
+    @Column(name = "session_id")
+    private String sessionId;
+    private LocalDateTime timeout;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

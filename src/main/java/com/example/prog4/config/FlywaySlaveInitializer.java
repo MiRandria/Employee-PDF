@@ -1,4 +1,4 @@
-package com.example.prog4.repository.configuration;
+package com.example.prog4.config;
 
 import jakarta.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -8,19 +8,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FlywaySlaveInitializer {
-  private final DataSource baseDataSource;
+  private final DataSource employeeDataSource;
   private final DataSource cnapsDataSource;
 
-  public FlywaySlaveInitializer(DataSource baseDataSource,
-                                @Qualifier("cnapsEmployeeDataSource")
+  public FlywaySlaveInitializer(DataSource employeeDataSource,
+                                @Qualifier("cnapsDataSource")
                                 DataSource cnapsDataSource) {
-    this.baseDataSource = baseDataSource;
+    this.employeeDataSource = employeeDataSource;
     this.cnapsDataSource = cnapsDataSource;
   }
 
   @PostConstruct
   public void migrate() {
-    migrateDataSource(baseDataSource, "classpath:/db/migration/base");
+    migrateDataSource(employeeDataSource, "classpath:/db/migration/employee");
     migrateDataSource(cnapsDataSource, "classpath:/db/migration/cnaps");
   }
 

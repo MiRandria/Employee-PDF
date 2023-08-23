@@ -3,7 +3,7 @@ package com.example.prog4.model;
 
 import com.example.prog4.model.enums.EmployeeSortField;
 import com.example.prog4.model.utilities.DateRange;
-import com.example.prog4.repository.base.entity.enums.Sex;
+import com.example.prog4.repository.employee.entity.enums.Sex;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.example.prog4.config;
 
-import com.example.prog4.repository.base.entity.Phone;
+import com.example.prog4.repository.employee.entity.Phone;
 import lombok.Data;
 import lombok.ToString;
 

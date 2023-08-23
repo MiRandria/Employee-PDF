@@ -1,7 +1,7 @@
 package com.example.prog4.repository.cnaps.entity;
 
-import com.example.prog4.repository.base.entity.enums.Csp;
-import com.example.prog4.repository.base.entity.enums.Sex;
+import com.example.prog4.repository.employee.entity.enums.Csp;
+import com.example.prog4.repository.employee.entity.enums.Sex;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

@@ -1,9 +1,9 @@
-package com.example.prog4.repository.cnaps.dao;
+package com.example.prog4.repository.employee.dao;
 
 import com.example.prog4.model.exception.InternalServerErrorException;
 import com.example.prog4.model.utilities.DateRange;
-import com.example.prog4.repository.cnaps.entity.Employee;
-import com.example.prog4.repository.base.entity.enums.Sex;
+import com.example.prog4.repository.employee.entity.Employee;
+import com.example.prog4.repository.employee.entity.enums.Sex;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class CnapsManagerDao {
+public class EmployeeManagerDao {
     private EntityManager entityManager;
 
     public List<Employee> findByCriteria(String lastName, String firstName, String countryCode, Sex sex, String position, DateRange entranceRange, DateRange departureRange, Pageable pageable) {
